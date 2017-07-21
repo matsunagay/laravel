@@ -26,6 +26,9 @@ Route::post('/books', function (Request $request) {
     //バリデーション
     $validator = Validator::make($request->all(), [
             'item_name' => 'required|max:255',
+            'item_number'=>'required|min:1|max:3',
+            'item_amout'=>'required|max:6',
+            'published'=>'required',
     ]);
     //バリデーション:エラー
     if ($validator->fails()) {
@@ -43,14 +46,66 @@ Route::post('/books', function (Request $request) {
     return redirect('/');
 });
 
+
+// Route::post('/books/update', function (Request $request) {
+//     //バリデーション
+//     $validator = Validator::make($request->all(), [
+//             'id'=>'required',
+//             'item_name' => 'required|max:255',
+//             'item_number'=>'required|min:1|max:3',
+//             'item_amout'=>'required|max:6',
+//             'published'=>'required',
+//     ]);
+//     //バリデーション:エラー
+//     if ($validator->fails()) {
+//             return redirect('/')
+//                 ->withInput()
+//                 ->withErrors($validator);
+//     }
+//     // Eloquent モデル
+//     $books=Books::find($request->id);
+//     $books->item_name=$request->item_name;
+//     $books->item_number=$request->item_number;
+//     $books->item_amout = '1000';
+//     $books->published = '2017-03-07 00:00:00';
+//     $books->save();   //「/」ルートにリダイレクト 
+//     return redirect('/');
+// });
+
+
+
+
+Route::post('/books/update',function(Request $request){
+    $validator=Validator::make($request->all(),[
+    'id'=>'required',
+    'item_name'=>'required|min:3|max:255',
+    'item_number'=>'required|min:1|max:3',
+    'item_amout'=>'required|max:6',
+    'published'=>'required',]);
+    //バリデーション：エラー
+    if($validator->fails())
+    {return redirect('/')->withInput()->withErrors($validator);}
+    //データ更新
+    $books=Books::find($request->id);
+    $books->item_name=$request->item_name;
+    $books->item_number=$request->item_number;
+    $books->item_amout=$request->item_amout;
+    $books->published=$request->published;
+    $books->save();return redirect('/');
+    });
+
+
 /**
 * 本を削除 */
-Route::delete('/book/{book}', function (Books $book) {
+Route::delete('/books/{book}', function (Books $book) {
     $book->delete();
     return redirect('/');
 });
 
 
+Route::post('/booksedit/{books}', function (Books $books) {
+	return	view('booksedit',	['book'=>$books]);
+});
 
 
 

@@ -1,13 +1,5 @@
-<!doctype html>
-<!-- resources/views/books.blade.php -->
-<head>
-<meta charset="utf-8">
- <title>books</title>
-</head>
-<body>
 
 @extends('layouts.app')
-
 @section('content')
 
     <!-- Bootstrapの定形コード… -->
@@ -30,8 +22,8 @@
                 </div>
                 
                 <div class="col-sm-6">
-                    <label for="amount" class="col-sm-3 control-label">金額</label>
-                    <input type="text" name="item_amount" id="book-amount" class="form-control">
+                    <label for="amout" class="col-sm-3 control-label">金額</label>
+                    <input type="text" name="item_amout" id="book-amount" class="form-control">
                 </div>
                 
                 <div class="col-sm-6">
@@ -96,7 +88,7 @@
                                 
                                 <!-- 本: 削除ボタン -->
                                 <td>
-                                    <form action="{{ url('book/'.$book->id) }}" method="POST">
+                                    <form action="{{ url('books/'.$book->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button type="submit" class="btn btn-danger">
@@ -119,6 +111,3 @@
     <!-- 本登録フォームの作成 -->
 
 @endsection
-
-</body>
-</html>
